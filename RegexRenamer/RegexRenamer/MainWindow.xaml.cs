@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using RegexRenamer.ViewModels;
 
 namespace RegexRenamer
 {
@@ -20,14 +21,18 @@ namespace RegexRenamer
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainWindowViewModel model = new MainWindowViewModel();
+        
         public MainWindow()
         {
+            this.DataContext = model;
             InitializeComponent();
+            
         }
 
         private void FilesDroppedHandler(object sender, DragEventArgs e)
         {
-            
+            model.AddFiles((string[])e.Data.GetData(DataFormats.FileDrop, false));
         }
     }
 }

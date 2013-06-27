@@ -1,36 +1,61 @@
 ﻿<Window x:Class="RegexRenamer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:RegexRenamer.ViewModels"
+        xmlns:rr="clr-namespace:RegexRenamer"
         Title="Regex Renamer" Height="350" Width="525"
+        rr:CommandSinkBinding.CommandSink="{Binding}"
         >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="auto" Height="auto">
+    <Window.CommandBindings>
+        <rr:CommandSinkBinding Command="vm:MainWindowViewModel.RenameCommand"/>
+    </Window.CommandBindings>
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top" Grid.ColumnSpan="2" Width="auto" Height="auto">
             <MenuItem Header="File">
                 <MenuItem Header="Open" Command="Open"/>
             </MenuItem>
-            
+
         </Menu>
-        
-        <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button DockPanel.Dock="Right" Content="Rename" Margin="10" Padding="6,1"/>
-            <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center"/>
+
+        <Grid DockPanel.Dock="Top" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                
+            	<ColumnDefinition Width="Auto"/>
+            	<ColumnDefinition/>
+            	<ColumnDefinition Width="Auto"/>
+                
+            </Grid.ColumnDefinitions>
+
+            <Label DockPanel.Dock="Left" Content="Find" Margin="10,10, 2, 10" HorizontalAlignment="Right"/>
+            <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=Find, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
+
+
+            <Label DockPanel.Dock="Left" Content="Rename" Margin="10,10, 2, 10" Grid.Row="1" HorizontalAlignment="Right"/>
+            <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=Regex, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
+            <Button DockPanel.Dock="Right" Command="vm:MainWindowViewModel.RenameCommand" Content="Rename" Margin="10" Padding="6,1" Grid.Row="1" Grid.Column="3"/>
             
-        </DockPanel>
-        
-        <Label Grid.Row="2" Grid.Column="0" Content="Old names" Margin="10, 0, 10 , 0"/>
-        <ListBox Grid.Row="3" Grid.Column="0" BorderThickness="2" BorderBrush="Orange" Margin="10, 0" Drop="FilesDroppedHandler" AllowDrop="True"/>
-        
-        <Label Grid.Row="2" Grid.Column="1" Content="New names" Margin="10, 0, 10 , 0"/>
-        <ListBox Grid.Row="3" Grid.Column="1" BorderThickness="2" BorderBrush="Orange" Margin="10, 0"/>
-    </Grid>
+        </Grid>
+        <Grid Margin="0,0,0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Old names" Margin="10, 0, 10 , 0"/>
+            <ListBox Grid.Row="1" Grid.Column="0" BorderThickness="2" BorderBrush="Orange" Margin="10, 0" Drop="FilesDroppedHandler" AllowDrop="True"
+                 ItemsSource="{Binding Path=FileNames}"/>
+
+
+            <Label Grid.Row="0" Grid.Column="1" Content="New names" Margin="10, 0, 10 , 0"/>
+            <ListBox Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="Orange" Margin="10, 0"
+                 ItemsSource="{Binding Path=NewFileNames}"/>
+        </Grid>
+    </DockPanel>
 </Window>
