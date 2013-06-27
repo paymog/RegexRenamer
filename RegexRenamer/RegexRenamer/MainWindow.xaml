@@ -31,11 +31,11 @@
             </Grid.ColumnDefinitions>
 
             <Label DockPanel.Dock="Left" Content="Find" Margin="10,10, 2, 10" HorizontalAlignment="Right"/>
-            <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=Find, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
+            <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=Find, UpdateSourceTrigger=PropertyChanged, Delay=1}" Grid.Column="1"/>
 
 
-            <Label DockPanel.Dock="Left" Content="Rename" Margin="10,10, 2, 10" Grid.Row="1" HorizontalAlignment="Right"/>
-            <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=Regex, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
+            <Label DockPanel.Dock="Left" Content="Replace" Margin="10,10, 2, 10" Grid.Row="1" HorizontalAlignment="Right"/>
+            <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=Replace, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
             <Button DockPanel.Dock="Right" Command="vm:MainWindowViewModel.RenameCommand" Content="Rename" Margin="10" Padding="6,1" Grid.Row="1" Grid.Column="3"/>
             
         </Grid>
@@ -50,12 +50,12 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Old names" Margin="10, 0, 10 , 0"/>
             <ListBox Grid.Row="1" Grid.Column="0" BorderThickness="2" BorderBrush="Orange" Margin="10, 0" Drop="FilesDroppedHandler" AllowDrop="True"
-                 ItemsSource="{Binding Path=FileNames}"/>
+                 ItemsSource="{Binding Path=Files}" DisplayMemberPath="OldName"/>
 
 
             <Label Grid.Row="0" Grid.Column="1" Content="New names" Margin="10, 0, 10 , 0"/>
             <ListBox Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="Orange" Margin="10, 0"
-                 ItemsSource="{Binding Path=NewFileNames}"/>
+                 ItemsSource="{Binding Path=Files}" DisplayMemberPath="NewName"/>
         </Grid>
     </DockPanel>
 </Window>
