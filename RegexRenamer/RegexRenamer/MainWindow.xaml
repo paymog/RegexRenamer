@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:RegexRenamer.ViewModels"
         xmlns:rr="clr-namespace:RegexRenamer"
+        xmlns:m="clr-namespace:RegexRenamer.Models"
         Title="Regex Renamer" Height="350" Width="525"
         rr:CommandSinkBinding.CommandSink="{Binding}"
         >
@@ -48,14 +49,45 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Old names" Margin="10, 0, 10 , 0"/>
-            <ListBox Grid.Row="1" Grid.Column="0" BorderThickness="2" BorderBrush="Orange" Margin="10, 0" Drop="FilesDroppedHandler" AllowDrop="True"
-                 ItemsSource="{Binding Path=Files}" DisplayMemberPath="OldName"/>
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Margin" Value="5,0,10,0"/>
+                </Style>
+                <Style TargetType="ListBox">
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="ItemsSource" Value="{Binding Path=Files}"/>
+                    <Setter Property="Margin" Value="10,0"/>
+                </Style>
+            </Grid.Resources>
+            <Label Grid.Row="0" Grid.Column="0" Content="Old names"/>
+            <ListBox Grid.Row="1" Grid.Column="0" Drop="FilesDroppedHandler" AllowDrop="True">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type m:RenamedFile}">
+                        <Label Content="{Binding Path=OldName}" Margin="-5" x:Name="nameLabel"/>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsAffected}" Value="True">
+                                <Setter TargetName="nameLabel" Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
 
-            <Label Grid.Row="0" Grid.Column="1" Content="New names" Margin="10, 0, 10 , 0"/>
-            <ListBox Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="Orange" Margin="10, 0"
-                 ItemsSource="{Binding Path=Files}" DisplayMemberPath="NewName"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="New names" />
+            <ListBox Grid.Row="1" Grid.Column="1" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type m:RenamedFile}">
+                        <Label Content="{Binding Path=OldName}" Margin="-5" x:Name="nameLabel"/>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsAffected}" Value="True">
+                                <Setter TargetName="nameLabel" Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </DockPanel>
 </Window>
