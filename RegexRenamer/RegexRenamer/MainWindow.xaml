@@ -4,43 +4,53 @@
         xmlns:vm="clr-namespace:RegexRenamer.ViewModels"
         xmlns:rr="clr-namespace:RegexRenamer"
         xmlns:m="clr-namespace:RegexRenamer.Models"
-        Title="Regex Renamer" Height="350" Width="525"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:con="clr-namespace:RegexRenamer.Converter"
+        Title="Regex Renamer" Height="610" Width="835"
         rr:CommandSinkBinding.CommandSink="{Binding}"
         >
     <Window.CommandBindings>
         <rr:CommandSinkBinding Command="vm:MainWindowViewModel.RenameCommand"/>
     </Window.CommandBindings>
+    <Window.Resources>
+        <con:ColorConverter x:Key="ColourConverter"/>
+    </Window.Resources>
     <DockPanel LastChildFill="True">
+
+        
         <Menu DockPanel.Dock="Top" Grid.ColumnSpan="2" Width="auto" Height="auto">
             <MenuItem Header="File">
                 <MenuItem Header="Open" Command="Open"/>
             </MenuItem>
 
         </Menu>
-
+        <!--<DockPanel DockPanel.Dock="Right">
+        <xctk:ColorPicker DockPanel.Dock="Top" x:Name="ColorPicker" VerticalAlignment="Top"/>
+            <Slider DockPanel.Dock="Top" Minimum="8" Maximum="30" Value="12" x:Name="FontSizeSlider" IsSnapToTickEnabled="True"/>
+            <TextBox DockPanel.Dock="Top" Text="{Binding ElementName=FontSizeSlider, Path=Value}" VerticalAlignment="Top"/>
+        </DockPanel>-->
         <Grid DockPanel.Dock="Top" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                
-            	<ColumnDefinition Width="Auto"/>
-            	<ColumnDefinition/>
-            	<ColumnDefinition Width="Auto"/>
-                
+
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+
             </Grid.ColumnDefinitions>
 
             <Label DockPanel.Dock="Left" Content="Find" Margin="10,10, 2, 10" HorizontalAlignment="Right"/>
             <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=Find, UpdateSourceTrigger=PropertyChanged, Delay=1}" Grid.Column="1"/>
 
-
             <Label DockPanel.Dock="Left" Content="Replace" Margin="10,10, 2, 10" Grid.Row="1" HorizontalAlignment="Right"/>
             <TextBox DockPanel.Dock="Left" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=Replace, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
             <Button DockPanel.Dock="Right" Command="vm:MainWindowViewModel.RenameCommand" Content="Rename" Margin="10" Padding="6,1" Grid.Row="1" Grid.Column="3"/>
-            
+
         </Grid>
-        <Grid Margin="0,0,0,10">
+        <Grid Margin="0,0,0,10" DockPanel.Dock="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -64,10 +74,10 @@
             <ListBox Grid.Row="1" Grid.Column="0" Drop="FilesDroppedHandler" AllowDrop="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type m:RenamedFile}">
-                        <Label Content="{Binding Path=OldName}" Margin="-5" x:Name="nameLabel"/>
+                        <Label Content="{Binding Path=OldName}" Margin="-5" x:Name="nameLabel" />
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsAffected}" Value="True">
-                                <Setter TargetName="nameLabel" Property="Foreground" Value="Red"/>
+                                <Setter TargetName="nameLabel" Property="Foreground" Value="{StaticResource AffectedFileColour}"/>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -79,10 +89,10 @@
             <ListBox Grid.Row="1" Grid.Column="1" >
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type m:RenamedFile}">
-                        <Label Content="{Binding Path=OldName}" Margin="-5" x:Name="nameLabel"/>
+                        <Label Content="{Binding Path=NewName}" Margin="-5" x:Name="nameLabel"/>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsAffected}" Value="True">
-                                <Setter TargetName="nameLabel" Property="Foreground" Value="Red"/>
+                                <Setter TargetName="nameLabel" Property="Foreground" Value="{StaticResource AffectedFileColour}"/>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
