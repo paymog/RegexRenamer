@@ -95,7 +95,7 @@
     <Compile Include="CommandSink.cs" />
     <Compile Include="CommandSinkBinding.cs" />
     <Compile Include="Converter\ColorConverter.cs" />
-    <Compile Include="Models\RenamedFile.cs" />
+    <Compile Include="Models\RenamableFile.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
