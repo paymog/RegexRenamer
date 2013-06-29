@@ -16,11 +16,12 @@ namespace RegexRenamer.ViewModels
         private string _replace;
         public string Replace
         {
-            get 
+            get
             {
                 if (_replace == null)
                     _replace = "";
-                return this._replace; }
+                return this._replace;
+            }
             set
             {
                 this._replace = value;
@@ -32,10 +33,12 @@ namespace RegexRenamer.ViewModels
         private string _find;
         public string Find
         {
-            get {
-                if (_find== null)
-                    _find  = "";
-                return _find; }
+            get
+            {
+                if (_find == null)
+                    _find = "";
+                return _find;
+            }
             set
             {
                 _find = value;
@@ -44,13 +47,13 @@ namespace RegexRenamer.ViewModels
             }
         }
 
-        public ObservableCollection<RenamedFile> _files;
-        public ObservableCollection<RenamedFile> Files
+        public ObservableCollection<RenamableFile> _files;
+        public ObservableCollection<RenamableFile> Files
         {
             get
             {
                 if (_files == null)
-                    _files = new ObservableCollection<RenamedFile>();
+                    _files = new ObservableCollection<RenamableFile>();
                 return _files;
             }
             set
@@ -60,8 +63,6 @@ namespace RegexRenamer.ViewModels
             }
 
         }
-
-        private bool _canRename = true;
 
         public static RoutedUICommand RenameCommand { get; set; }
 
@@ -73,15 +74,31 @@ namespace RegexRenamer.ViewModels
 
         }
 
+        #region Commands
+
+
         public bool CanRename
         {
-            get { return _canRename; }
+            get
+            {
+                var affectedItems = from f in Files
+                                    where f.IsAffected
+                                    select f;
+
+                return Find.Length > 0 && affectedItems.Count() > 0;
+            }
         }
 
         private void Rename()
         {
-            throw new NotImplementedException();
+            foreach (var file in Files)
+                if(file.IsAffected)
+                    file.Rename();
         }
+
+        #endregion
+
+        #region Adding files
 
         public void AddFiles(string[] fileNames)
         {
@@ -101,17 +118,22 @@ namespace RegexRenamer.ViewModels
                 AddDirectory(file);
 
             foreach (var file in Directory.EnumerateFiles(fileName))
-                Files.Add(new RenamedFile(file));
+                Files.Add(new RenamableFile(file));
         }
 
         private void AddFile(string fileName)
         {
-            Files.Add(new RenamedFile(fileName));
+            var f = new RenamableFile(fileName);
+
+            if(!Files.Contains(f))
+                Files.Add(new RenamableFile(fileName));
         }
+
+        #endregion
 
         private void PreviewRegex()
         {
-            
+
             try
             {
                 foreach (var file in this.Files)
@@ -124,7 +146,7 @@ namespace RegexRenamer.ViewModels
             {
 
             }
-            
+
         }
     }
 }

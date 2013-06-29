@@ -73,7 +73,7 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Old names"/>
             <ListBox Grid.Row="1" Grid.Column="0" Drop="FilesDroppedHandler" AllowDrop="True">
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type m:RenamedFile}">
+                    <DataTemplate DataType="{x:Type m:RenamableFile}">
                         <Label Content="{Binding Path=OldName}" Margin="-5" x:Name="nameLabel" />
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsAffected}" Value="True">
@@ -88,7 +88,7 @@
             <Label Grid.Row="0" Grid.Column="1" Content="New names" />
             <ListBox Grid.Row="1" Grid.Column="1" >
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type m:RenamedFile}">
+                    <DataTemplate DataType="{x:Type m:RenamableFile}">
                         <Label Content="{Binding Path=NewName}" Margin="-5" x:Name="nameLabel"/>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsAffected}" Value="True">

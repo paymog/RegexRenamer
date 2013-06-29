@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace RegexRenamer.Models
 {
-    class RenamedFile: INotifyPropertyChanged
+    class RenamableFile: INotifyPropertyChanged
     {
         private string _fullPath;
         public string FullPath
@@ -54,13 +54,14 @@ namespace RegexRenamer.Models
             get { return OldName.Length != NewName.Length; }
         }
 
-        public RenamedFile(string oldName)
+        public RenamableFile(string oldName)
         {
+            FullPath = Path.GetFullPath(oldName);
             int lastSlashIndex = oldName.LastIndexOf('\\');
             if (lastSlashIndex != -1)
                 oldName = oldName.Substring(lastSlashIndex + 1);
             OldName = NewName = oldName;
-            FullPath = Path.GetFullPath(oldName);
+            
             Debug.Print(FullPath);
         }
 
@@ -87,5 +88,37 @@ namespace RegexRenamer.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public void Rename()
+        {
+            var newAbsolutePath = this.FullPath.Replace(this.OldName, this.NewName);
+
+            File.Move(this.FullPath, newAbsolutePath);
+
+            this.FullPath = newAbsolutePath;
+            int lastSlashIndex = newAbsolutePath.LastIndexOf('\\');
+            if (lastSlashIndex != -1)
+                newAbsolutePath = newAbsolutePath.Substring(lastSlashIndex + 1);
+            OldName = NewName = newAbsolutePath;
+
+        }
+
+        #region Overrides
+        
+        public override bool Equals(object obj)
+        {
+            var rfile = obj as RenamableFile;
+            if (rfile == null)
+                return false;
+
+            return this.FullPath == rfile.FullPath;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.FullPath.GetHashCode();
+        }
+
+        #endregion
     }
 }
