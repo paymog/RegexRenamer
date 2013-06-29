@@ -12,9 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
-using RegexRenamer.ViewModels;
+using RegexRename.ViewModels;
 
-namespace RegexRenamer
+namespace RegexRename
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

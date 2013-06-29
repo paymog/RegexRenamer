@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace RegexRenamer.Models
+namespace RegexRename.Models
 {
     class RenamableFile: INotifyPropertyChanged
     {
@@ -111,7 +111,7 @@ namespace RegexRenamer.Models
             if (rfile == null)
                 return false;
 
-            return this.FullPath == rfile.FullPath;
+            return this.FullPath.Equals(rfile.FullPath);
         }
 
         public override int GetHashCode()

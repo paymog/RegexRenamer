@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace RegexRenamer
+namespace RegexRename
 {
     #region ICommandSink
 

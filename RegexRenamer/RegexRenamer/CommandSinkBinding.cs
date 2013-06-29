@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace RegexRenamer
+namespace RegexRename
 {
     /// <summary>
     /// A CommandBinding subclass that will attach its

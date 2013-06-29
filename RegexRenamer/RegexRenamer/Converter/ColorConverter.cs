@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace RegexRenamer.Converter
+namespace RegexRename.Converter
 {
     class ColorConverter: IValueConverter
     {

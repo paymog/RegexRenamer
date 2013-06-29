@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 
-namespace RegexRenamer.ViewModels
+namespace RegexRename.ViewModels
 {
     abstract class BaseViewModel : INotifyPropertyChanged, ICommandSink
     {

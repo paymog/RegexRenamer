@@ -1,4 +1,4 @@
-﻿using RegexRenamer.Models;
+﻿using RegexRename.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Configuration;
 
-namespace RegexRenamer.ViewModels
+namespace RegexRename.ViewModels
 {
     class MainWindowViewModel : BaseViewModel
     {
@@ -64,13 +64,13 @@ namespace RegexRenamer.ViewModels
 
         }
 
-        public static RoutedCommand RenameCommand { get; set; }
-        public static RoutedCommand RemoveAllCommand { get; set; }
+        public static RoutedUICommand RenameCommand { get; set; }
+        public static RoutedUICommand RemoveAllCommand { get; set; }
 
         public MainWindowViewModel()
         {
-            RenameCommand = new RoutedCommand("Rename", typeof(MainWindowViewModel));
-            RemoveAllCommand = new RoutedCommand("RemoveAll", typeof(MainWindowViewModel));
+            RenameCommand = new RoutedUICommand("Rename the affected files", "Rename", typeof(MainWindowViewModel));
+            RemoveAllCommand = new RoutedUICommand("Remove all of the files", "RemoveAll", typeof(MainWindowViewModel));
             base.RegisterCommand(RenameCommand, param => this.CanRename, param => this.Rename());
             base.RegisterCommand(RemoveAllCommand, param => this.CanRemoveAll, param => this.RemoveAll());
 
@@ -130,7 +130,7 @@ namespace RegexRenamer.ViewModels
                 AddDirectory(file);
 
             foreach (var file in Directory.EnumerateFiles(fileName))
-                Files.Add(new RenamableFile(file));
+                AddFile(file);
         }
 
         private void AddFile(string fileName)
@@ -145,19 +145,11 @@ namespace RegexRenamer.ViewModels
 
         private void PreviewRegex()
         {
-
-            try
-            {
                 foreach (var file in this.Files)
                 {
                     file.PreviewRegex(@Find, @Replace);
                 }
 
-            }
-            catch (ArgumentException e)
-            {
-
-            }
 
         }
     }
