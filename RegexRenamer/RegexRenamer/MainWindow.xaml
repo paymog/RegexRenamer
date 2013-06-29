@@ -11,14 +11,20 @@
         >
     <Window.CommandBindings>
         <rr:CommandSinkBinding Command="vm:MainWindowViewModel.RenameCommand"/>
+        <rr:CommandSinkBinding Command="vm:MainWindowViewModel.RemoveAllCommand"/>
     </Window.CommandBindings>
     <Window.Resources>
         <con:ColorConverter x:Key="ColourConverter"/>
     </Window.Resources>
-    <DockPanel LastChildFill="True">
-
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         
-        <Menu DockPanel.Dock="Top" Grid.ColumnSpan="2" Width="auto" Height="auto">
+        <Menu Grid.Row="0" Width="auto" Height="auto">
             <MenuItem Header="File">
                 <MenuItem Header="Open" Command="Open"/>
             </MenuItem>
@@ -29,7 +35,7 @@
             <Slider DockPanel.Dock="Top" Minimum="8" Maximum="30" Value="12" x:Name="FontSizeSlider" IsSnapToTickEnabled="True"/>
             <TextBox DockPanel.Dock="Top" Text="{Binding ElementName=FontSizeSlider, Path=Value}" VerticalAlignment="Top"/>
         </DockPanel>-->
-        <Grid DockPanel.Dock="Top" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -50,7 +56,7 @@
             <Button DockPanel.Dock="Right" Command="vm:MainWindowViewModel.RenameCommand" Content="Rename" Margin="10" Padding="6,1" Grid.Row="1" Grid.Column="3"/>
 
         </Grid>
-        <Grid Margin="0,0,0,10" DockPanel.Dock="Top">
+        <Grid Margin="0,0,0,10" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -99,5 +105,9 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-    </DockPanel>
+        
+        <StackPanel Grid.Row="3" Margin="10,0,10,10">
+            <Button Content="Remove All" Command="vm:MainWindowViewModel.RemoveAllCommand" HorizontalAlignment="Left" Padding="6,1"/>
+        </StackPanel>
+    </Grid>
 </Window>
