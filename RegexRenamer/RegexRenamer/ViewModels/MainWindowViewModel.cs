@@ -64,20 +64,16 @@ namespace RegexRenamer.ViewModels
 
         }
 
-        public static RoutedCommand RenameCommand { get; set; }
-        public static RoutedCommand RemoveAllCommand { get; set; }
+        public static RoutedUICommand RenameCommand { get; set; }
 
         public MainWindowViewModel()
         {
-            RenameCommand = new RoutedCommand("Rename", typeof(MainWindowViewModel));
-            RemoveAllCommand = new RoutedCommand("RemoveAll", typeof(MainWindowViewModel));
+            RenameCommand = new RoutedUICommand("Rename", "Rename", typeof(MainWindowViewModel));
 
             base.RegisterCommand(RenameCommand, param => this.CanRename, param => this.Rename());
-            base.RegisterCommand(RemoveAllCommand, param => this.CanRemoveAll, param => this.RemoveAll());
 
         }
 
-        
         #region Commands
 
 
@@ -99,17 +95,6 @@ namespace RegexRenamer.ViewModels
                 if(file.IsAffected)
                     file.Rename();
         }
-
-        public bool CanRemoveAll
-        {
-            get { return this.Files.Count > 0; }
-        }
-
-        private void RemoveAll()
-        {
-            this.Files.Clear();
-        }
-
 
         #endregion
 
@@ -163,7 +148,5 @@ namespace RegexRenamer.ViewModels
             }
 
         }
-
-        
     }
 }
