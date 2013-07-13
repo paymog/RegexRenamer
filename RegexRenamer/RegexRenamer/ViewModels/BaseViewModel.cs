@@ -39,6 +39,7 @@ namespace RegexRename.ViewModels
             _sink.RegisterCommand(command, canExecute, execute);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         protected void UnregisterCommand(ICommand command)
         {
             _sink.UnregisterCommand(command);

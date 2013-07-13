@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Configuration;
+using System.Windows.Data;
 
 namespace RegexRename.ViewModels
 {
@@ -61,18 +62,25 @@ namespace RegexRename.ViewModels
                 _files = value;
                 OnPropertyChanged();
             }
-
         }
+
+        private const string HELP_URL = @"http://msdn.microsoft.com/en-us/library/az24scfc.aspx";
 
         public static RoutedUICommand RenameCommand { get; set; }
         public static RoutedUICommand RemoveAllCommand { get; set; }
+        public static RoutedUICommand FindHelpCommand { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Input.RoutedUICommand.#ctor(System.String,System.String,System.Type)")]
         public MainWindowViewModel()
         {
             RenameCommand = new RoutedUICommand("Rename the affected files", "Rename", typeof(MainWindowViewModel));
             RemoveAllCommand = new RoutedUICommand("Remove all of the files", "RemoveAll", typeof(MainWindowViewModel));
+            FindHelpCommand = new RoutedUICommand("Find some regex help", "FindHelp", typeof(MainWindowViewModel));
+
             base.RegisterCommand(RenameCommand, param => this.CanRename, param => this.Rename());
             base.RegisterCommand(RemoveAllCommand, param => this.CanRemoveAll, param => this.RemoveAll());
+            base.RegisterCommand(FindHelpCommand, param => true, param => this.FindHelp());
+
 
         }
 
@@ -108,6 +116,23 @@ namespace RegexRename.ViewModels
             this.Files.Clear();
         }
 
+        public bool CanRemoveSelected
+        {
+            get
+            {
+                return CollectionViewSource.GetDefaultView(this.Files).CurrentItem != null;
+            }
+        }
+
+        public void RemoveSelected()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FindHelp()
+        {
+            Process.Start(HELP_URL);
+        }
         #endregion
 
         #region Adding files

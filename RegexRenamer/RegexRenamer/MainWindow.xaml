@@ -12,6 +12,7 @@
     <Window.CommandBindings>
         <rr:CommandSinkBinding Command="vm:MainWindowViewModel.RenameCommand"/>
         <rr:CommandSinkBinding Command="vm:MainWindowViewModel.RemoveAllCommand"/>
+        <rr:CommandSinkBinding Command="vm:MainWindowViewModel.FindHelpCommand"/>
     </Window.CommandBindings>
     <Window.Resources>
     </Window.Resources>
@@ -23,17 +24,6 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
-        <Menu Grid.Row="0" Width="auto" Height="auto">
-            <MenuItem Header="File">
-                <MenuItem Header="Open" Command="Open"/>
-            </MenuItem>
-
-        </Menu>
-        <!--<DockPanel DockPanel.Dock="Right">
-        <xctk:ColorPicker DockPanel.Dock="Top" x:Name="ColorPicker" VerticalAlignment="Top"/>
-            <Slider DockPanel.Dock="Top" Minimum="8" Maximum="30" Value="12" x:Name="FontSizeSlider" IsSnapToTickEnabled="True"/>
-            <TextBox DockPanel.Dock="Top" Text="{Binding ElementName=FontSizeSlider, Path=Value}" VerticalAlignment="Top"/>
-        </DockPanel>-->
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -105,8 +95,11 @@
             </ListBox>
         </Grid>
         
-        <StackPanel Grid.Row="3" Margin="10,0,10,10">
+        <Grid Grid.Row="3" Margin="10,0,10,10">
             <Button Content="Remove All"  HorizontalAlignment="Left" Padding="6,1" Command="vm:MainWindowViewModel.RemoveAllCommand"/>
-        </StackPanel>
+            <TextBlock HorizontalAlignment="Right" Margin="0,2,0,2">
+                <Hyperlink Command="vm:MainWindowViewModel.FindHelpCommand" >For help, go here</Hyperlink>
+            </TextBlock>
+        </Grid>
     </Grid>
 </Window>

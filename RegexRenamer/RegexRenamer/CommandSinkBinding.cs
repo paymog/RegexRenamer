@@ -26,7 +26,7 @@ namespace RegexRename
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException("Cannot set CommandSink to null.");
+                    throw new ArgumentNullException("value", "Cannot set CommandSink to null.");
 
                 if (_commandSink != null)
                     throw new InvalidOperationException("Cannot set CommandSink more than once.");
@@ -196,7 +196,7 @@ namespace RegexRename
             void Verify()
             {
                 if (!this.IsValid)
-                    throw new InvalidOperationException("Cannot use an invalid CommmonElement.");
+                    throw new InvalidOperationException("Cannot use an invalid CommonElement.");
             }
         }
 

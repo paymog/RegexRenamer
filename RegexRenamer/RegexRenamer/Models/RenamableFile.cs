@@ -48,21 +48,26 @@ namespace RegexRename.Models
             }
         }
 
-        //private bool _isAffected;
         public bool IsAffected
         {
-            get { return OldName.Length != NewName.Length; }
+            get { return !OldName.Equals(NewName); }
         }
 
         public RenamableFile(string oldName)
         {
-            FullPath = Path.GetFullPath(oldName);
-            int lastSlashIndex = oldName.LastIndexOf('\\');
-            if (lastSlashIndex != -1)
-                oldName = oldName.Substring(lastSlashIndex + 1);
-            OldName = NewName = oldName;
+            oldName = UpdatePath(oldName);
             
             Debug.Print(FullPath);
+        }
+
+        private string UpdatePath(string path)
+        {
+            FullPath = Path.GetFullPath(path);
+            int lastSlashIndex = path.LastIndexOf('\\');
+            if (lastSlashIndex != -1)
+                path = path.Substring(lastSlashIndex + 1);
+            OldName = NewName = path;
+            return path;
         }
 
         public void PreviewRegex(string find, string replaceWith)
@@ -80,7 +85,7 @@ namespace RegexRename.Models
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         private void OnPropertyChanged([CallerMemberName] string propertyName="")
         {
             if (PropertyChanged != null)
@@ -95,11 +100,7 @@ namespace RegexRename.Models
 
             File.Move(this.FullPath, newAbsolutePath);
 
-            this.FullPath = newAbsolutePath;
-            int lastSlashIndex = newAbsolutePath.LastIndexOf('\\');
-            if (lastSlashIndex != -1)
-                newAbsolutePath = newAbsolutePath.Substring(lastSlashIndex + 1);
-            OldName = NewName = newAbsolutePath;
+            UpdatePath(newAbsolutePath);
 
         }
 
