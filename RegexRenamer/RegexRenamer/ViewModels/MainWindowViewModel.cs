@@ -69,6 +69,7 @@ namespace RegexRename.ViewModels
         public static RoutedUICommand RenameCommand { get; set; }
         public static RoutedUICommand RemoveAllCommand { get; set; }
         public static RoutedUICommand FindHelpCommand { get; set; }
+        public static RoutedUICommand OpenFolderCommand { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Input.RoutedUICommand.#ctor(System.String,System.String,System.Type)")]
         public MainWindowViewModel()
@@ -76,10 +77,12 @@ namespace RegexRename.ViewModels
             RenameCommand = new RoutedUICommand("Rename the affected files", "Rename", typeof(MainWindowViewModel));
             RemoveAllCommand = new RoutedUICommand("Remove all of the files", "RemoveAll", typeof(MainWindowViewModel));
             FindHelpCommand = new RoutedUICommand("Find some regex help", "FindHelp", typeof(MainWindowViewModel));
+            OpenFolderCommand = new RoutedUICommand("Open a folder", "OpenFolder", typeof(MainWindowViewModel));
 
             base.RegisterCommand(RenameCommand, param => this.CanRename, param => this.Rename());
             base.RegisterCommand(RemoveAllCommand, param => this.CanRemoveAll, param => this.RemoveAll());
             base.RegisterCommand(FindHelpCommand, param => true, param => this.FindHelp());
+            base.RegisterCommand(OpenFolderCommand, param => true, param => this.OpenFolder());
 
 
         }
@@ -107,8 +110,8 @@ namespace RegexRename.ViewModels
         }
 
         public bool CanRemoveAll
-        { 
-            get { return this.Files.Count > 0; } 
+        {
+            get { return this.Files.Count > 0; }
         }
 
         private void RemoveAll()
@@ -133,6 +136,17 @@ namespace RegexRename.ViewModels
         {
             Process.Start(HELP_URL);
         }
+
+        private void OpenFolder()
+        {
+            var dlg = new System.Windows.Forms.FolderBrowserDialog();
+            var result = dlg.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                this.AddFiles(new string[] { dlg.SelectedPath });
+            }
+        }
         #endregion
 
         #region Adding files
@@ -151,8 +165,8 @@ namespace RegexRename.ViewModels
 
         private void AddDirectory(string fileName)
         {
-            foreach (var file in Directory.EnumerateDirectories(fileName))
-                AddDirectory(file);
+            foreach (var directory in Directory.EnumerateDirectories(fileName))
+                AddDirectory(directory);
 
             foreach (var file in Directory.EnumerateFiles(fileName))
                 AddFile(file);
@@ -170,10 +184,10 @@ namespace RegexRename.ViewModels
 
         private void PreviewRegex()
         {
-                foreach (var file in this.Files)
-                {
-                    file.PreviewRegex(@Find, @Replace);
-                }
+            foreach (var file in this.Files)
+            {
+                file.PreviewRegex(@Find, @Replace);
+            }
 
 
         }

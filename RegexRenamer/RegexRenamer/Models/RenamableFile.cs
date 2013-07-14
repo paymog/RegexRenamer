@@ -56,8 +56,6 @@ namespace RegexRename.Models
         public RenamableFile(string oldName)
         {
             oldName = UpdatePath(oldName);
-            
-            Debug.Print(FullPath);
         }
 
         private string UpdatePath(string path)
