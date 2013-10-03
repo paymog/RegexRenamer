@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Configuration;
 using System.Windows.Data;
+using MVVMToolkit;
 
 namespace RegexRename.ViewModels
 {
@@ -94,11 +95,17 @@ namespace RegexRename.ViewModels
         {
             get
             {
-                var affectedItems = from f in Files
-                                    where f.IsAffected
-                                    select f;
-
-                return Find.Length > 0 && affectedItems.Count() > 0;
+                if (!string.IsNullOrEmpty(this.Find))
+                {
+                    foreach (RenamableFile f in this.Files)
+                    {
+                        if (f.IsAffected)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
         }
 
@@ -163,12 +170,12 @@ namespace RegexRename.ViewModels
             }
         }
 
-        private void AddDirectory(string fileName)
+        private void AddDirectory(string directoryPath)
         {
-            foreach (var directory in Directory.EnumerateDirectories(fileName))
+            foreach (var directory in Directory.EnumerateDirectories(directoryPath))
                 AddDirectory(directory);
 
-            foreach (var file in Directory.EnumerateFiles(fileName))
+            foreach (var file in Directory.EnumerateFiles(directoryPath))
                 AddFile(file);
         }
 

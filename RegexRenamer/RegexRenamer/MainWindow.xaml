@@ -4,16 +4,17 @@
         xmlns:vm="clr-namespace:RegexRename.ViewModels"
         xmlns:m="clr-namespace:RegexRename.Models"
         xmlns:rr="clr-namespace:RegexRename"
+        xmlns:tk="clr-namespace:MVVMToolkit;assembly=MVVMToolkit"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:con="clr-namespace:RegexRename.Converter"
         Title="Regex Renamer" Height="610" Width="835"
-        rr:CommandSinkBinding.CommandSink="{Binding}"
+        tk:CommandSinkBinding.CommandSink="{Binding}"
         >
     <Window.CommandBindings>
-        <rr:CommandSinkBinding Command="vm:MainWindowViewModel.RenameCommand"/>
-        <rr:CommandSinkBinding Command="vm:MainWindowViewModel.RemoveAllCommand"/>
-        <rr:CommandSinkBinding Command="vm:MainWindowViewModel.FindHelpCommand"/>
-        <rr:CommandSinkBinding Command="vm:MainWindowViewModel.OpenFolderCommand"/>
+        <tk:CommandSinkBinding Command="vm:MainWindowViewModel.RenameCommand"/>
+        <tk:CommandSinkBinding Command="vm:MainWindowViewModel.RemoveAllCommand"/>
+        <tk:CommandSinkBinding Command="vm:MainWindowViewModel.FindHelpCommand"/>
+        <tk:CommandSinkBinding Command="vm:MainWindowViewModel.OpenFolderCommand"/>
     </Window.CommandBindings>
     <Window.Resources>
     </Window.Resources>
